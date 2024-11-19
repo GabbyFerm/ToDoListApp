@@ -28,3 +28,8 @@ Main Menu Options:
     Newtonsoft.Json: For JSON data handling.
     Spectre.Console: For creating interactive console menus.
     FluentValidation: For validating user input.
+
+## Acknowledgements 🙌
+
+    Spectre.Console for the rich console UI.
+    FluentValidation for input validation.
