@@ -122,14 +122,28 @@ namespace ToDoListApp.Classes
         public bool DeleteToDo(int id)
         {
             var item = _toDoList.FirstOrDefault(i => i.Id == id);
-            if (item != null)
+
+            if (item == null)
             {
-                _toDoList.Remove(item);
-                SaveToFile();
-                _historyManager.AddHistory($"Deleted To-Do: {item.Title} (ID: {id})");
-                return true; 
+                return false; 
             }
-            return false; 
+
+            var validator = new ToDoValidator();
+            var validationResult = validator.Validate(item);
+
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
+                return false; 
+            }
+
+            _toDoList.Remove(item);
+            SaveToFile();
+            _historyManager.AddHistory($"Deleted To-Do: {item.Title} (ID: {id})");
+            return true;
         }
 
         public void MarkToDoAsCompleted(int id)
